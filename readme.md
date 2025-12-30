@@ -1,5 +1,5 @@
 # perpdex
-**perpdex** is a blockchain built using Cosmos SDK and Tendermint and created with [Ignite CLI](https://ignite.com/cli).
+**perpdex** is a perp test dex  built using Cosmos SDK and Tendermint and created with [Ignite CLI](https://ignite.com/cli).
 
 ## Get started
 
