@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package perpdex.perp.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "perpdex/perp/v1/params.proto";
+import "perpdex/perp/v1/position.proto";
+
+option go_package = "github.com/cry2133/perpdex/x/perp/types";
+
+// GenesisState defines the perp module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  repeated Position position_map = 2 [(gogoproto.nullable) = false];
+}

@@ -67,6 +67,12 @@ import (
 	icatypes "github.com/cosmos/ibc-go/v10/modules/apps/27-interchain-accounts/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v10/modules/apps/transfer/types"
 	ibcexported "github.com/cosmos/ibc-go/v10/modules/core/exported"
+	_ "github.com/cry2133/perpdex/x/market/module"
+	marketmoduletypes "github.com/cry2133/perpdex/x/market/types"
+	_ "github.com/cry2133/perpdex/x/oracle/module"
+	oraclemoduletypes "github.com/cry2133/perpdex/x/oracle/types"
+	_ "github.com/cry2133/perpdex/x/perp/module"
+	perpmoduletypes "github.com/cry2133/perpdex/x/perp/types"
 	"google.golang.org/protobuf/types/known/durationpb"
 )
 
@@ -81,7 +87,7 @@ var (
 		{Account: nft.ModuleName},
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: icatypes.ModuleName},
-	}
+		{Account: oraclemoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}, {Account: perpmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}}
 
 	// blocked account addresses
 	blockAccAddrs = []string{
@@ -123,6 +129,9 @@ var (
 						// ibc modules
 						ibcexported.ModuleName,
 						// chain modules
+						oraclemoduletypes.ModuleName,
+						perpmoduletypes.ModuleName,
+						marketmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/beginBlockers
 					},
 					EndBlockers: []string{
@@ -131,6 +140,9 @@ var (
 						feegrant.ModuleName,
 						group.ModuleName,
 						// chain modules
+						oraclemoduletypes.ModuleName,
+						perpmoduletypes.ModuleName,
+						marketmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/endBlockers
 					},
 					// The following is mostly only needed when ModuleName != StoreKey name.
@@ -167,6 +179,9 @@ var (
 						ibctransfertypes.ModuleName,
 						icatypes.ModuleName,
 						// chain modules
+						oraclemoduletypes.ModuleName,
+						perpmoduletypes.ModuleName,
+						marketmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/initGenesis
 					},
 				}),
@@ -262,6 +277,18 @@ var (
 			{
 				Name:   epochstypes.ModuleName,
 				Config: appconfig.WrapAny(&epochsmodulev1.Module{}),
+			},
+			{
+				Name:   oraclemoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&oraclemoduletypes.Module{}),
+			},
+			{
+				Name:   perpmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&perpmoduletypes.Module{}),
+			},
+			{
+				Name:   marketmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&marketmoduletypes.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

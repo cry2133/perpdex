@@ -1,0 +1,16 @@
+syntax = "proto3";
+package perpdex.perp.v1;
+
+option go_package = "github.com/cry2133/perpdex/x/perp/types";
+
+// Position defines the Position message.
+message Position {
+  string index = 1;
+  string trader = 2;
+  string pair = 3;
+  string side = 4;
+  string size = 5;
+  string entry_price = 6;
+  string margin = 7;
+  string leverage = 8;
+}

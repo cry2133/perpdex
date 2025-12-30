@@ -46,6 +46,9 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v10/modules/core/keeper"
 
 	"github.com/cry2133/perpdex/docs"
+	marketmodulekeeper "github.com/cry2133/perpdex/x/market/keeper"
+	oraclemodulekeeper "github.com/cry2133/perpdex/x/oracle/keeper"
+	perpmodulekeeper "github.com/cry2133/perpdex/x/perp/keeper"
 )
 
 const (
@@ -98,7 +101,10 @@ type App struct {
 	TransferKeeper      ibctransferkeeper.Keeper
 
 	// simulation manager
-	sm *module.SimulationManager
+	sm           *module.SimulationManager
+	OracleKeeper oraclemodulekeeper.Keeper
+	PerpKeeper   perpmodulekeeper.Keeper
+	MarketKeeper marketmodulekeeper.Keeper
 }
 
 func init() {
@@ -178,6 +184,9 @@ func New(
 		&app.ConsensusParamsKeeper,
 		&app.CircuitBreakerKeeper,
 		&app.ParamsKeeper,
+		&app.OracleKeeper,
+		&app.PerpKeeper,
+		&app.MarketKeeper,
 	); err != nil {
 		panic(err)
 	}

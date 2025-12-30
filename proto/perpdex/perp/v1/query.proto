@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package perpdex.perp.v1;
+
+import "amino/amino.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "perpdex/perp/v1/params.proto";
+import "perpdex/perp/v1/position.proto";
+
+option go_package = "github.com/cry2133/perpdex/x/perp/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/cry2133/perpdex/perp/v1/params";
+  }
+
+  // ListPosition Queries a list of Position items.
+  rpc GetPosition(QueryGetPositionRequest) returns (QueryGetPositionResponse) {
+    option (google.api.http).get = "/cry2133/perpdex/perp/v1/position/{index}";
+  }
+
+  // ListPosition defines the ListPosition RPC.
+  rpc ListPosition(QueryAllPositionRequest) returns (QueryAllPositionResponse) {
+    option (google.api.http).get = "/cry2133/perpdex/perp/v1/position";
+  }
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// QueryGetPositionRequest defines the QueryGetPositionRequest message.
+message QueryGetPositionRequest {
+  string index = 1;
+}
+
+// QueryGetPositionResponse defines the QueryGetPositionResponse message.
+message QueryGetPositionResponse {
+  Position position = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllPositionRequest defines the QueryAllPositionRequest message.
+message QueryAllPositionRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllPositionResponse defines the QueryAllPositionResponse message.
+message QueryAllPositionResponse {
+  repeated Position position = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
