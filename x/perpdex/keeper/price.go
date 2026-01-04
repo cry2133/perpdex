@@ -7,24 +7,24 @@ import (
 	"cosmossdk.io/store/prefix"
 	"github.com/cosmos/cosmos-sdk/runtime"
 
-	"blog/x/blog/types"
+	"perpdex/x/perpdex/types"
 )
 
-func (k Keeper) AppendPost(ctx context.Context, post types.Post) uint64 {
-	count := k.GetPostCount(ctx)
+func (k Keeper) AppendPrice(ctx context.Context, post types.Price) uint64 {
+	count := k.GetPriceCount(ctx)
 	post.Id = count
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte(types.PostKey))
+	store := prefix.NewStore(storeAdapter, []byte(types.PriceKey))
 	appendedValue := k.cdc.MustMarshal(&post)
 	store.Set(GetPostIDBytes(post.Id), appendedValue)
-	k.SetPostCount(ctx, count+1)
+	k.SetPriceCount(ctx, count+1)
 	return count
 }
 
-func (k Keeper) GetPostCount(ctx context.Context) uint64 {
+func (k Keeper) GetPriceCount(ctx context.Context) uint64 {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := []byte(types.PostCountKey)
+	byteKey := []byte(types.PriceCountKey)
 	bz := store.Get(byteKey)
 	if bz == nil {
 		return 0
@@ -38,18 +38,18 @@ func GetPostIDBytes(id uint64) []byte {
 	return bz
 }
 
-func (k Keeper) SetPostCount(ctx context.Context, count uint64) {
+func (k Keeper) SetPriceCount(ctx context.Context, count uint64) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := []byte(types.PostCountKey)
+	byteKey := []byte(types.PriceCountKey)
 	bz := make([]byte, 8)
 	binary.BigEndian.PutUint64(bz, count)
 	store.Set(byteKey, bz)
 }
 
-func (k Keeper) GetPost(ctx context.Context, id uint64) (val types.Post, found bool) {
+func (k Keeper) GetPrice(ctx context.Context, id uint64) (val types.Price, found bool) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte(types.PostKey))
+	store := prefix.NewStore(storeAdapter, []byte(types.PriceKey))
 	b := store.Get(GetPostIDBytes(id))
 	if b == nil {
 		return val, false

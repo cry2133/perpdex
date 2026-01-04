@@ -13,7 +13,14 @@ func (k msgServer) CreatePrice(ctx context.Context, msg *types.MsgCreatePrice) (
 		return nil, errorsmod.Wrap(err, "invalid authority address")
 	}
 
-	// TODO: Handle the message
+	var post = types.Price{
+		Creator: msg.Creator,
+		Symbol:  msg.Symbol,
+		Price:   msg.Price,
+	}
+	id := k.AppendPrice(ctx, post)
 
-	return &types.MsgCreatePriceResponse{}, nil
+	return &types.MsgCreatePriceResponse{
+		Id: id,
+	}, nil
 }
