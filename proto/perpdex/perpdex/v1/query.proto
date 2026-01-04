@@ -27,6 +27,11 @@ service Query {
   rpc ShowSymbolPrice(QueryShowSymbolPriceRequest) returns (QueryShowSymbolPriceResponse) {
     option (google.api.http).get = "/perpdex/perpdex/v1/show_symbol_price/{symbol}";
   }
+
+  // ListPrice Queries a list of ListPrice items.
+  rpc ListPrice(QueryListPriceRequest) returns (QueryListPriceResponse) {
+    option (google.api.http).get = "/perpdex/perpdex/v1/list_price";
+  }
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -59,4 +64,15 @@ message QueryShowSymbolPriceRequest {
 // QueryShowSymbolPriceResponse defines the QueryShowSymbolPriceResponse message.
 message QueryShowSymbolPriceResponse {
   Price post = 1;
+}
+
+// QueryListPriceRequest defines the QueryListPriceRequest message.
+message QueryListPriceRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryListPriceResponse defines the QueryListPriceResponse message.
+message QueryListPriceResponse {
+  Price post = 1;
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

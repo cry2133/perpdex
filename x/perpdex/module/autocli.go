@@ -31,6 +31,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "symbol"}},
 				},
 
+				{
+					RpcMethod:      "ListPrice",
+					Use:            "list-price ",
+					Short:          "Query list-price",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
