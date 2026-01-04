@@ -2,6 +2,8 @@ package keeper
 
 import (
 	"context"
+	"fmt"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	"perpdex/x/perpdex/types"
 
@@ -13,7 +15,14 @@ func (k msgServer) DeletePrice(ctx context.Context, msg *types.MsgDeletePrice) (
 		return nil, errorsmod.Wrap(err, "invalid authority address")
 	}
 
-	// TODO: Handle the message
+	val, found := k.GetPrice(ctx, msg.Id)
+	if !found {
+		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
+	}
+	if msg.Creator != val.Creator {
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+	}
+	k.RemovePrice(ctx, msg.Id)
 
 	return &types.MsgDeletePriceResponse{}, nil
 }
