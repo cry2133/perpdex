@@ -1,0 +1,12 @@
+syntax = "proto3";
+package perpdex.perpdex.v1;
+
+option go_package = "perpdex/x/perpdex/types";
+
+// Price defines the Price message.
+message Price {
+  string symbol = 1;
+  string price = 2;
+  string creator = 3;
+  uint64 id = 4;
+}
