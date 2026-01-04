@@ -44,6 +44,21 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		weightMsgCreatePrice,
 		perpdexsimulation.SimulateMsgCreatePrice(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
 	))
+	const (
+		opWeightMsgUpdatePrice          = "op_weight_msg_perpdex"
+		defaultWeightMsgUpdatePrice int = 100
+	)
+
+	var weightMsgUpdatePrice int
+	simState.AppParams.GetOrGenerate(opWeightMsgUpdatePrice, &weightMsgUpdatePrice, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdatePrice = defaultWeightMsgUpdatePrice
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdatePrice,
+		perpdexsimulation.SimulateMsgUpdatePrice(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
+	))
 
 	return operations
 }
