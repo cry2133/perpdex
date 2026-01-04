@@ -17,6 +17,9 @@ const (
 	PriceKey = "Price/value/"
 
 	PriceCountKey = "Price/count/"
+
+	// Add new key for symbol index
+	PriceSymbolKey = "Price/symbol/"
 )
 
 // ParamsKey is the prefix to retrieve all Params
