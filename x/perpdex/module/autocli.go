@@ -17,6 +17,20 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "params",
 					Short:     "Shows the parameters of the module",
 				},
+				{
+					RpcMethod:      "ShowPrice",
+					Use:            "show-price [id]",
+					Short:          "Query show-price",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
+
+				{
+					RpcMethod:      "ShowSymbolPrice",
+					Use:            "show-symbol-price [symbol]",
+					Short:          "Query show-symbol-price",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "symbol"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

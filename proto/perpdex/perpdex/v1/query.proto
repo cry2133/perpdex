@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package perpdex.perpdex.v1;
 
 import "amino/amino.proto";
@@ -6,6 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "perpdex/perpdex/v1/params.proto";
+import "perpdex/perpdex/v1/price.proto";
 
 option go_package = "perpdex/x/perpdex/types";
 
@@ -14,6 +16,16 @@ service Query {
   // Parameters queries the parameters of the module.
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/perpdex/perpdex/v1/params";
+  }
+
+  // ShowPrice Queries a list of ShowPrice items.
+  rpc ShowPrice(QueryShowPriceRequest) returns (QueryShowPriceResponse) {
+    option (google.api.http).get = "/perpdex/perpdex/v1/show_price/{id}";
+  }
+
+  // ShowSymbolPrice Queries a list of ShowSymbolPrice items.
+  rpc ShowSymbolPrice(QueryShowSymbolPriceRequest) returns (QueryShowSymbolPriceResponse) {
+    option (google.api.http).get = "/perpdex/perpdex/v1/show_symbol_price/{symbol}";
   }
 }
 
@@ -27,4 +39,24 @@ message QueryParamsResponse {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+}
+
+// QueryShowPriceRequest defines the QueryShowPriceRequest message.
+message QueryShowPriceRequest {
+  uint64 id = 1;
+}
+
+// QueryShowPriceResponse defines the QueryShowPriceResponse message.
+message QueryShowPriceResponse {
+  Price post = 1;
+}
+
+// QueryShowSymbolPriceRequest defines the QueryShowSymbolPriceRequest message.
+message QueryShowSymbolPriceRequest {
+  string symbol = 1;
+}
+
+// QueryShowSymbolPriceResponse defines the QueryShowSymbolPriceResponse message.
+message QueryShowSymbolPriceResponse {
+  Price post = 1;
 }
