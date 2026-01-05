@@ -2,6 +2,9 @@ package keeper
 
 import (
 	"context"
+	"cosmossdk.io/store/prefix"
+	"github.com/cosmos/cosmos-sdk/runtime"
+	"github.com/cosmos/cosmos-sdk/types/query"
 
 	"perpdex/x/perpdex/types"
 
@@ -14,7 +17,23 @@ func (q queryServer) ListPrice(ctx context.Context, req *types.QueryListPriceReq
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	// TODO: Process the query
+	storeAdapter := runtime.KVStoreAdapter(q.k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, []byte(types.PriceKey))
 
-	return &types.QueryListPriceResponse{}, nil
+	var posts []types.Price
+	pageRes, err := query.Paginate(store, req.Pagination, func(key []byte, value []byte) error {
+		var post types.Price
+		if err := q.k.cdc.Unmarshal(value, &post); err != nil {
+			return err
+		}
+
+		posts = append(posts, post)
+		return nil
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &types.QueryListPriceResponse{Post: posts, Pagination: pageRes}, nil
 }
