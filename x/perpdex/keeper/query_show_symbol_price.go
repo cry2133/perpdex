@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	"perpdex/x/perpdex/types"
 
@@ -14,7 +15,10 @@ func (q queryServer) ShowSymbolPrice(ctx context.Context, req *types.QueryShowSy
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	// TODO: Process the query
+	price, found := q.k.GetPriceBySymbol(ctx, req.Symbol)
+	if !found {
+		return nil, sdkerrors.ErrKeyNotFound
+	}
 
-	return &types.QueryShowSymbolPriceResponse{}, nil
+	return &types.QueryShowSymbolPriceResponse{Post: price}, nil
 }

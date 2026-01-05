@@ -20,5 +20,5 @@ func (q queryServer) ShowPrice(ctx context.Context, req *types.QueryShowPriceReq
 		return nil, sdkerrors.ErrKeyNotFound
 	}
 
-	return &types.QueryShowPriceResponse{Post: &price}, nil
+	return &types.QueryShowPriceResponse{Post: price}, nil
 }
