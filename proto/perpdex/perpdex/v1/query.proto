@@ -63,17 +63,16 @@ message QueryShowSymbolPriceRequest {
 
 // QueryShowSymbolPriceResponse defines the QueryShowSymbolPriceResponse message.
 message QueryShowSymbolPriceResponse {
-  Price post = 1;
+  Price post = 1 [(gogoproto.nullable) = false];
 }
 
 // QueryListPriceRequest defines the QueryListPriceRequest message.
 message QueryListPriceRequest {
-  repeated Post post = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 // QueryListPriceResponse defines the QueryListPriceResponse message.
 message QueryListPriceResponse {
-  Price post = 1;
+  repeated Price post = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
