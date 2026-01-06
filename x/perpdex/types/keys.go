@@ -24,3 +24,8 @@ const (
 
 // ParamsKey is the prefix to retrieve all Params
 var ParamsKey = collections.NewPrefix("p_perpdex")
+
+var (
+	LoanKey      = collections.NewPrefix("loan/value/")
+	LoanCountKey = collections.NewPrefix("loan/count/")
+)

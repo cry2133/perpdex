@@ -1,8 +1,10 @@
 syntax = "proto3";
+
 package perpdex.perpdex.v1;
 
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
+import "perpdex/perpdex/v1/loan.proto";
 import "perpdex/perpdex/v1/params.proto";
 
 option go_package = "perpdex/x/perpdex/types";
@@ -14,4 +16,6 @@ message GenesisState {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+  repeated Loan loan_list = 2 [(gogoproto.nullable) = false];
+  uint64 loan_count = 3;
 }

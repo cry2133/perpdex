@@ -38,6 +38,18 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{},
 				},
 
+				{
+					RpcMethod: "ListLoan",
+					Use:       "list-loan",
+					Short:     "List all loan",
+				},
+				{
+					RpcMethod:      "GetLoan",
+					Use:            "get-loan [id]",
+					Short:          "Gets a loan by id",
+					Alias:          []string{"show-loan"},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
@@ -65,6 +77,36 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod:      "DeletePrice",
 					Use:            "delete-price [id]",
 					Short:          "Send a delete-price tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
+				{
+					RpcMethod:      "RequestLoan",
+					Use:            "request-loan [amount] [fee] [collateral] [deadline]",
+					Short:          "Send a request-loan tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "amount"}, {ProtoField: "fee"}, {ProtoField: "collateral"}, {ProtoField: "deadline"}},
+				},
+				{
+					RpcMethod:      "ApproveLoan",
+					Use:            "approve-loan [id]",
+					Short:          "Send a approve-loan tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
+				{
+					RpcMethod:      "CancelLoan",
+					Use:            "cancel-loan [id]",
+					Short:          "Send a cancel-loan tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
+				{
+					RpcMethod:      "RepayLoan",
+					Use:            "repay-loan [id]",
+					Short:          "Send a repay-loan tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
+				{
+					RpcMethod:      "LiquidateLoan",
+					Use:            "liquidate-loan [id]",
+					Short:          "Send a liquidate-loan tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx

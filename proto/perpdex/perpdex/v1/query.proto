@@ -6,6 +6,7 @@ import "amino/amino.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
+import "perpdex/perpdex/v1/loan.proto";
 import "perpdex/perpdex/v1/params.proto";
 import "perpdex/perpdex/v1/price.proto";
 
@@ -32,6 +33,16 @@ service Query {
   rpc ListPrice(QueryListPriceRequest) returns (QueryListPriceResponse) {
     option (google.api.http).get = "/perpdex/perpdex/v1/list_price";
   }
+
+  // ListLoan Queries a list of Loan items.
+  rpc GetLoan(QueryGetLoanRequest) returns (QueryGetLoanResponse) {
+    option (google.api.http).get = "/perpdex/perpdex/v1/loan/{id}";
+  }
+
+  // ListLoan defines the ListLoan RPC.
+  rpc ListLoan(QueryAllLoanRequest) returns (QueryAllLoanResponse) {
+    option (google.api.http).get = "/perpdex/perpdex/v1/loan";
+  }
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -53,7 +64,7 @@ message QueryShowPriceRequest {
 
 // QueryShowPriceResponse defines the QueryShowPriceResponse message.
 message QueryShowPriceResponse {
-  Price post = 1 [(gogoproto.nullable) = false];;
+  Price post = 1 [(gogoproto.nullable) = false];
 }
 
 // QueryShowSymbolPriceRequest defines the QueryShowSymbolPriceRequest message.
@@ -74,5 +85,26 @@ message QueryListPriceRequest {
 // QueryListPriceResponse defines the QueryListPriceResponse message.
 message QueryListPriceResponse {
   repeated Price post = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGetLoanRequest defines the QueryGetLoanRequest message.
+message QueryGetLoanRequest {
+  uint64 id = 1;
+}
+
+// QueryGetLoanResponse defines the QueryGetLoanResponse message.
+message QueryGetLoanResponse {
+  Loan loan = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllLoanRequest defines the QueryAllLoanRequest message.
+message QueryAllLoanRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllLoanResponse defines the QueryAllLoanResponse message.
+message QueryAllLoanResponse {
+  repeated Loan loan = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

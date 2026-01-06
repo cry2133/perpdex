@@ -1,6 +1,8 @@
 package app
 
 import (
+	_ "perpdex/x/loan/module"
+	loanmoduletypes "perpdex/x/loan/types"
 	_ "perpdex/x/perpdex/module"
 	perpdexmoduletypes "perpdex/x/perpdex/types"
 	"time"
@@ -83,7 +85,7 @@ var (
 		{Account: nft.ModuleName},
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: icatypes.ModuleName},
-	}
+		{Account: loanmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}}
 
 	// blocked account addresses
 	blockAccAddrs = []string{
@@ -126,6 +128,7 @@ var (
 						ibcexported.ModuleName,
 						// chain modules
 						perpdexmoduletypes.ModuleName,
+						loanmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/beginBlockers
 					},
 					EndBlockers: []string{
@@ -135,6 +138,7 @@ var (
 						group.ModuleName,
 						// chain modules
 						perpdexmoduletypes.ModuleName,
+						loanmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/endBlockers
 					},
 					// The following is mostly only needed when ModuleName != StoreKey name.
@@ -172,6 +176,7 @@ var (
 						icatypes.ModuleName,
 						// chain modules
 						perpdexmoduletypes.ModuleName,
+						loanmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/initGenesis
 					},
 				}),
@@ -271,6 +276,10 @@ var (
 			{
 				Name:   perpdexmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&perpdexmoduletypes.Module{}),
+			},
+			{
+				Name:   loanmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&loanmoduletypes.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
