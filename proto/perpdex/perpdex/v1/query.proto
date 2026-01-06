@@ -53,7 +53,7 @@ message QueryShowPriceRequest {
 
 // QueryShowPriceResponse defines the QueryShowPriceResponse message.
 message QueryShowPriceResponse {
-  Price post = 1 [(gogoproto.nullable) = false];;
+  Price post = 1 [(gogoproto.nullable) = false];
 }
 
 // QueryShowSymbolPriceRequest defines the QueryShowSymbolPriceRequest message.

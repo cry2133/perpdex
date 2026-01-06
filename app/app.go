@@ -46,6 +46,7 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v10/modules/core/keeper"
 
 	"perpdex/docs"
+	loanmodulekeeper "perpdex/x/loan/keeper"
 	perpdexmodulekeeper "perpdex/x/perpdex/keeper"
 )
 
@@ -101,6 +102,7 @@ type App struct {
 	// simulation manager
 	sm            *module.SimulationManager
 	PerpdexKeeper perpdexmodulekeeper.Keeper
+	LoanKeeper    loanmodulekeeper.Keeper
 }
 
 func init() {
@@ -181,6 +183,7 @@ func New(
 		&app.CircuitBreakerKeeper,
 		&app.ParamsKeeper,
 		&app.PerpdexKeeper,
+		&app.LoanKeeper,
 	); err != nil {
 		panic(err)
 	}

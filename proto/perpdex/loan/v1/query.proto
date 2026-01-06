@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package perpdex.loan.v1;
+
+import "amino/amino.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "perpdex/loan/v1/loan.proto";
+import "perpdex/loan/v1/params.proto";
+
+option go_package = "perpdex/x/loan/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/perpdex/loan/v1/params";
+  }
+
+  // ListLoan Queries a list of Loan items.
+  rpc GetLoan(QueryGetLoanRequest) returns (QueryGetLoanResponse) {
+    option (google.api.http).get = "/perpdex/loan/v1/loan/{id}";
+  }
+
+  // ListLoan defines the ListLoan RPC.
+  rpc ListLoan(QueryAllLoanRequest) returns (QueryAllLoanResponse) {
+    option (google.api.http).get = "/perpdex/loan/v1/loan";
+  }
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// QueryGetLoanRequest defines the QueryGetLoanRequest message.
+message QueryGetLoanRequest {
+  uint64 id = 1;
+}
+
+// QueryGetLoanResponse defines the QueryGetLoanResponse message.
+message QueryGetLoanResponse {
+  Loan loan = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllLoanRequest defines the QueryAllLoanRequest message.
+message QueryAllLoanRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllLoanResponse defines the QueryAllLoanResponse message.
+message QueryAllLoanResponse {
+  repeated Loan loan = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
